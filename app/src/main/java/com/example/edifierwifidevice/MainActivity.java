@@ -2,17 +2,23 @@ package com.example.edifierwifidevice;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -32,6 +38,18 @@ public class MainActivity extends AppCompatActivity {
     Intent wifiSettings;
     SharedPreferences bufSettings;
     final String SAVED_IP = "saved_ip";
+    //--buttons
+    ImageButton power;
+    ImageButton mute;
+    ImageButton minusb;
+    ImageButton plusb;
+    ImageButton line1b;
+    ImageButton line2b;
+    ImageButton opticalb;
+    ImageButton coaxialb;
+    ImageButton bluetoothb;
+
+    boolean state;
 
 
     @Override
@@ -45,15 +63,161 @@ public class MainActivity extends AppCompatActivity {
         }
         SERVER_IP = loadSettings();
         Log.e("Server IP", SERVER_IP);
-        temp = findViewById(R.id.tempButton);
+        //temp = findViewById(R.id.tempButton);
         threadConnect = new Thread(new ClientThread());
         threadStarted();
-        temp.setOnClickListener(new View.OnClickListener() {
+
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        power = (ImageButton) findViewById(R.id.power);
+        mute = (ImageButton) findViewById(R.id.mute);
+        minusb = (ImageButton) findViewById(R.id.minus);
+        plusb = (ImageButton) findViewById(R.id.plus);
+        line1b = (ImageButton) findViewById(R.id.line1);
+        line2b = (ImageButton) findViewById(R.id.line2);
+        opticalb = (ImageButton) findViewById(R.id.opt);
+        coaxialb = (ImageButton) findViewById(R.id.coaxial);
+        bluetoothb = (ImageButton) findViewById(R.id.bluet);
+        final Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        final int vibratemilsec = 50;
+        //final int delaysender = 150;
+
+        SwitchCompat onOffSwitch = (SwitchCompat)  findViewById(R.id.on_off_switch);
+        onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.v("Switch State=", ""+isChecked);
+                state = isChecked;
+            }
+
+        });
+        /*temp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 String temp = "12345" + "\n" + "67890";
                 sendMessage(temp);
+            }
+        });*/
+
+        //---handler button
+
+        power.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(state == true)
+                {
+                    v.vibrate(vibratemilsec);
+                }
+                String s = "2730db" + "\n" + "power";
+                sendMessage(s);
+
+            }
+        });
+        mute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(state == true)
+                {
+                    v.vibrate(vibratemilsec);
+                }
+                String s = "2730db" + "\n" + "mute";
+                sendMessage(s);
+
+            }
+        });
+        minusb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(state == true)
+                {
+                    v.vibrate(vibratemilsec);
+                }
+                String s = "2730db" + "\n" + "minus";
+                sendMessage(s);
+
+            }
+        });
+        plusb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(state == true)
+                {
+                    v.vibrate(vibratemilsec);
+                }
+                String s = "2730db" + "\n" + "plus";
+                sendMessage(s);
+
+            }
+        });
+        line1b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(state == true)
+                {
+                    v.vibrate(vibratemilsec);
+                }
+                String s = "2730db" + "\n" + "line1";
+                sendMessage(s);
+
+            }
+        });
+        line2b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(state == true)
+                {
+                    v.vibrate(vibratemilsec);
+                }
+                String s = "2730db" + "\n" + "line2";
+                sendMessage(s);
+
+            }
+        });
+        opticalb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(state == true)
+                {
+                    v.vibrate(vibratemilsec);
+                }
+                String s = "2730db" + "\n" + "optical";
+                sendMessage(s);
+
+            }
+        });
+        coaxialb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(state == true)
+                {
+                    v.vibrate(vibratemilsec);
+                }
+                String s = "2730db" + "\n" + "coaxial";
+                sendMessage(s);
+
+            }
+        });
+        bluetoothb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(state == true)
+                {
+                    v.vibrate(vibratemilsec);
+                }
+                String s = "2730db" + "\n" + "bluetooth";
+                sendMessage(s);
+
             }
         });
     }
